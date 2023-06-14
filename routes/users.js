@@ -6,6 +6,8 @@ router.route("/login").post(userController.login);
 
 router.route("/").get(userController.index);
 
+router.route("/user").get(userController.getUserInfo);
+
 // router.route("/:id").get(userController.findOne)
 // .patch(userController.update)
 // .delete(userController.remove)

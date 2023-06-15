@@ -8,9 +8,12 @@ app.use(cors());
 app.use(express.json());
 
 const userRoutes = require("./routes/users");
+const paletteRoutes = require("./routes/palettes");
 
 // Routes
 app.use("/users", userRoutes);
+
+app.use("/palettes", paletteRoutes);
 
 
 

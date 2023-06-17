@@ -119,6 +119,20 @@ const getUserCollectionPalettes = async (req, res) => {
     console.log(error);
   }
 };
+const getUserFavourites = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userFavourites = await knex("palettes")
+      .join("favourites", "palettes.id", "favourites.palette_id")
+      .where({
+        "favourites.user_id": userId,
+      });
+    res.status(200).json(userFavourites);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   index,
@@ -128,4 +142,5 @@ module.exports = {
   getUserPalettes,
   getUserCollections,
   getUserCollectionPalettes,
+  getUserFavourites,
 };

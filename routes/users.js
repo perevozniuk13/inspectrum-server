@@ -8,6 +8,8 @@ router.route("/").get(userController.index);
 
 router.route("/user").get(userController.getUserInfo);
 
+router.route("/:userId/palettes").get(userController.getUserPalettes);
+
 // router.route("/:id").get(userController.findOne)
 // .patch(userController.update)
 // .delete(userController.remove)

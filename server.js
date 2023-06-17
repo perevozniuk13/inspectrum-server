@@ -15,8 +15,6 @@ app.use("/users", userRoutes);
 
 app.use("/palettes", paletteRoutes);
 
-
-
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });

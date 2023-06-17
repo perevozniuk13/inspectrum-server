@@ -1,8 +1,9 @@
-exports.seed = async function(knex) {
+exports.seed = async function (knex) {
   // Deletes ALL existing entries
-  await knex('users').del()
-  await knex('users').insert([
+  await knex("users").del();
+  await knex("users").insert([
     {
+      id: 1,
       first_name: "John",
       last_name: "Doe",
       username: "johndoe",
@@ -10,6 +11,7 @@ exports.seed = async function(knex) {
       password: "password123",
     },
     {
+      id: 2,
       first_name: "Jane",
       last_name: "Smith",
       username: "janesmith",
@@ -17,6 +19,7 @@ exports.seed = async function(knex) {
       password: "password456",
     },
     {
+      id: 3,
       first_name: "Michael",
       last_name: "Johnson",
       username: "michaeljohnson",
@@ -24,6 +27,7 @@ exports.seed = async function(knex) {
       password: "password789",
     },
     {
+      id: 4,
       first_name: "Sarah",
       last_name: "Williams",
       username: "sarahwilliams",
@@ -31,6 +35,7 @@ exports.seed = async function(knex) {
       password: "passwordabc",
     },
     {
+      id: 5,
       first_name: "David",
       last_name: "Brown",
       username: "davidbrown",
@@ -38,6 +43,7 @@ exports.seed = async function(knex) {
       password: "passworddef",
     },
     {
+      id: 6,
       first_name: "Emily",
       last_name: "Taylor",
       username: "emilytaylor",
@@ -45,6 +51,7 @@ exports.seed = async function(knex) {
       password: "passwordghi",
     },
     {
+      id: 7,
       first_name: "Daniel",
       last_name: "Anderson",
       username: "danielanderson",
@@ -52,6 +59,7 @@ exports.seed = async function(knex) {
       password: "passwordjkl",
     },
     {
+      id: 8,
       first_name: "Olivia",
       last_name: "Thomas",
       username: "oliviathomas",
@@ -59,6 +67,7 @@ exports.seed = async function(knex) {
       password: "passwordmno",
     },
     {
+      id: 9,
       first_name: "Matthew",
       last_name: "Miller",
       username: "matthewmiller",
@@ -66,11 +75,12 @@ exports.seed = async function(knex) {
       password: "passwordpqr",
     },
     {
+      id: 10,
       first_name: "Ava",
       last_name: "Davis",
       username: "avadavis",
       email: "ava.davis@example.com",
       password: "passwordstu",
-    }
+    },
   ]);
 };

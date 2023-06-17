@@ -93,10 +93,39 @@ const getUserPalettes = async (req, res) => {
   }
 };
 
+const getUserCollections = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userCollections = await knex("collections").where({
+      user_id: userId,
+    });
+    res.status(200).json(userCollections);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUserCollectionPalettes = async (req, res) => {
+  const { userId, collectionId } = req.params;
+
+  try {
+    const userCollectionPalettes = await knex("palettes").where({
+      user_id: userId,
+      collection_id: collectionId,
+    });
+    res.status(200).json(userCollectionPalettes);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   index,
   signup,
   login,
   getUserInfo,
   getUserPalettes,
+  getUserCollections,
+  getUserCollectionPalettes,
 };

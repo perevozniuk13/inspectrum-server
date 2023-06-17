@@ -13,6 +13,7 @@ exports.seed = async function (knex) {
     {
       id: 2,
       user_id: 1,
+      collection_id: 2,
       colour1: "#FFA500",
       colour2: "#800080",
       colour3: "#008000",
@@ -21,6 +22,7 @@ exports.seed = async function (knex) {
     {
       id: 3,
       user_id: 1,
+      collection_id: 2,
       colour1: "#800000",
       colour2: "#00FFFF",
       colour3: "#FF00FF",
@@ -29,6 +31,7 @@ exports.seed = async function (knex) {
     {
       id: 4,
       user_id: 1,
+      collection_id: 2,
       colour1: "#FFFFF0",
       colour2: "#F0FFF0",
       colour3: "#F0F8FF",
@@ -37,6 +40,7 @@ exports.seed = async function (knex) {
     {
       id: 5,
       user_id: 1,
+      collection_id: 2,
       colour1: "#DC143C",
       colour2: "#7FFFD4",
       colour3: "#FF4500",
@@ -61,6 +65,7 @@ exports.seed = async function (knex) {
     {
       id: 8,
       user_id: 2,
+      collection_id: 1,
       colour1: "#556B2F",
       colour2: "#00CED1",
       colour3: "#FF1493",
@@ -69,6 +74,7 @@ exports.seed = async function (knex) {
     {
       id: 9,
       user_id: 2,
+      collection_id: 1,
       colour1: "#B22222",
       colour2: "#6495ED",
       colour3: "#FF00FF",

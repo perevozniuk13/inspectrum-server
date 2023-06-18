@@ -83,22 +83,74 @@ const getUserInfo = async (req, res) => {
 };
 
 const getUserPalettes = async (req, res) => {
-  const { userId } = req.params;
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
 
   try {
-    const userPalettes = await knex("palettes").where({ user_id: userId });
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const userPalettes = await knex("palettes").where({
+      user_id: verifiedToken.id,
+    });
     res.status(200).json(userPalettes);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getUserCollections = async (req, res) => {
-  const { userId } = req.params;
+const postUserPalettes = async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
 
   try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+
+    const addedPalette = await knex("palettes").insert({
+      ...req.body,
+      user_id: verifiedToken.id,
+    });
+    res.status(200).json(addedPalette[0]);
+  } catch {
+    return res.send("Invalid auth token");
+  }
+};
+
+const getUserCollections = async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
     const userCollections = await knex("collections").where({
-      user_id: userId,
+      user_id: verifiedToken.id,
+    });
+    res.status(200).json(userCollections);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const postUserCollections = async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+  const { collectionId } = req.params;
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const userCollections = await knex("pivot").insert({
+      ...req.body,
+      collection_id: Number(collectionId),
     });
     res.status(200).json(userCollections);
   } catch (error) {
@@ -107,33 +159,42 @@ const getUserCollections = async (req, res) => {
 };
 
 // const postUserCollectionPalette = async (req, res) => {
-//     const { userId, collectionId } = req.params;
+//     if (!req.headers.authorization) {
+//         return res.status(403).send("Please login");
+//       }
+//       const { collectionId } = req.params;
 
-//   try {
-//     await knex("collections")
-//       .where({
-//         user_id: userId,
-//         collection_id: collectionId
-//       })
-//       .insert(req.body);
+//       const authToken = req.headers.authorization.split(" ")[1];
 
-//     const updatedFavourites = await knex("favourites").where({
-//       user_id: userId,
-//     });
-//     res.status(200).json(updatedFavourites);
-//   } catch (error) {
-//     console.log(error);
-//   }
+//       try {
+//         const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+//         const userCollections = await knex("pivot").insert({
+//           ...req.body,
+//           collection_id: Number(collectionId),
+//         });
+//         res.status(200).json(userCollections);
+//       } catch (error) {
+//         console.log(error);
+//       }
 // };
 
 const getUserCollectionPalettes = async (req, res) => {
-  const { userId, collectionId } = req.params;
+  const { collectionId } = req.params;
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
 
   try {
-    const userCollectionPalettes = await knex("palettes").where({
-      user_id: userId,
-      collection_id: collectionId,
-    });
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const userCollectionPalettes = await knex("collections")
+      .join("pivot", "pivot.collection_id", "collections.id")
+      .join("palettes", "palettes.id", "pivot.palette_id")
+      .where({
+        "collections.user_id": verifiedToken.id,
+        "collections.id": collectionId,
+      });
     res.status(200).json(userCollectionPalettes);
   } catch (error) {
     console.log(error);
@@ -141,13 +202,18 @@ const getUserCollectionPalettes = async (req, res) => {
 };
 
 const getUserFavourites = async (req, res) => {
-  const { userId } = req.params;
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
 
   try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
     const userFavourites = await knex("palettes")
       .join("favourites", "palettes.id", "favourites.palette_id")
       .where({
-        "favourites.user_id": userId,
+        "favourites.user_id": verifiedToken.id,
       });
     res.status(200).json(userFavourites);
   } catch (error) {
@@ -156,21 +222,24 @@ const getUserFavourites = async (req, res) => {
 };
 
 const postUserFavourites = async (req, res) => {
-  const { userId } = req.params;
+  //   const { userId } = req.params;
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
 
   try {
-    await knex("favourites")
-      .where({
-        user_id: userId,
-      })
-      .insert(req.body);
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+
+    await knex("favourites").insert({ ...req.body, user_id: verifiedToken.id });
 
     const updatedFavourites = await knex("favourites").where({
-      user_id: userId,
+      user_id: verifiedToken.id,
     });
     res.status(200).json(updatedFavourites);
-  } catch (error) {
-    console.log(error);
+  } catch {
+    return res.send("Invalid auth token");
   }
 };
 
@@ -180,7 +249,9 @@ module.exports = {
   login,
   getUserInfo,
   getUserPalettes,
+  postUserPalettes,
   getUserCollections,
+  postUserCollections,
   //   postUserCollectionPalette,
   getUserCollectionPalettes,
   getUserFavourites,

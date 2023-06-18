@@ -7,12 +7,6 @@ exports.up = function (knex) {
       .references("users.id")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    table
-      .integer("collection_id")
-      .unsigned()
-      .references("collections.id")
-      .onUpdate("CASCADE")
-      .onDelete("CASCADE");
     table.string("colour1").notNullable();
     table.string("colour2").notNullable();
     table.string("colour3").notNullable();

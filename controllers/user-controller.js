@@ -106,6 +106,26 @@ const getUserCollections = async (req, res) => {
   }
 };
 
+// const postUserCollectionPalette = async (req, res) => {
+//     const { userId, collectionId } = req.params;
+
+//   try {
+//     await knex("collections")
+//       .where({
+//         user_id: userId,
+//         collection_id: collectionId
+//       })
+//       .insert(req.body);
+
+//     const updatedFavourites = await knex("favourites").where({
+//       user_id: userId,
+//     });
+//     res.status(200).json(updatedFavourites);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 const getUserCollectionPalettes = async (req, res) => {
   const { userId, collectionId } = req.params;
 
@@ -119,6 +139,7 @@ const getUserCollectionPalettes = async (req, res) => {
     console.log(error);
   }
 };
+
 const getUserFavourites = async (req, res) => {
   const { userId } = req.params;
 
@@ -134,6 +155,25 @@ const getUserFavourites = async (req, res) => {
   }
 };
 
+const postUserFavourites = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    await knex("favourites")
+      .where({
+        user_id: userId,
+      })
+      .insert(req.body);
+
+    const updatedFavourites = await knex("favourites").where({
+      user_id: userId,
+    });
+    res.status(200).json(updatedFavourites);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   index,
   signup,
@@ -141,6 +181,8 @@ module.exports = {
   getUserInfo,
   getUserPalettes,
   getUserCollections,
+  //   postUserCollectionPalette,
   getUserCollectionPalettes,
   getUserFavourites,
+  postUserFavourites,
 };

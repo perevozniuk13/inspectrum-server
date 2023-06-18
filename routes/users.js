@@ -16,7 +16,13 @@ router
   .route("/:userId/collections/:collectionId/palettes")
   .get(userController.getUserCollectionPalettes);
 
+// router
+//   .route("/:userId/collections/:collectionId/palettes")
+//   .post(userController.postUserCollectionPalette);
+
 router.route("/:userId/favourites").get(userController.getUserFavourites);
+
+router.route("/:userId/favourites").post(userController.postUserFavourites);
 // router.route("/:id").get(userController.findOne)
 // .patch(userController.update)
 // .delete(userController.remove)

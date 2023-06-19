@@ -14,9 +14,13 @@ router.route("/palettes").post(userController.postUserPalettes);
 router.route("/palettes/:paletteId").delete(userController.deleteUserPalette);
 
 router.route("/collections").get(userController.getUserCollections);
+router.route("/collections").post(userController.postNewUserCollection);
 router
   .route("/collections/:collectionId")
   .post(userController.postUserCollections);
+router
+  .route("/collections/:collectionId")
+  .put(userController.editUserCollection);
 
 router
   .route("/collections/:collectionId")

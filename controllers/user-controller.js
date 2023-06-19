@@ -156,6 +156,25 @@ const postUserCollections = async (req, res) => {
   }
 };
 
+const postNewUserCollection = async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const userCollections = await knex("collections").insert({
+      ...req.body,
+      user_id: verifiedToken.id,
+    });
+    res.status(200).json(userCollections);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getUserCollectionPalettes = async (req, res) => {
   const { collectionId } = req.params;
   if (!req.headers.authorization) {
@@ -329,6 +348,26 @@ const deleteUserCollectionPalette = async (req, res) => {
   }
 };
 
+const editUserCollection = async (req, res) => {
+  const { collectionId } = req.params;
+
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const response = await knex("collections")
+      .where({ id: collectionId, user_id: verifiedToken.id })
+      .update(req.body);
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   index,
   signup,
@@ -345,4 +384,6 @@ module.exports = {
   deleteUserFavourite,
   deleteUserCollection,
   deleteUserCollectionPalette,
+  postNewUserCollection,
+  editUserCollection,
 };

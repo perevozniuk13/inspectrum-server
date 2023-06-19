@@ -220,6 +220,115 @@ const postUserFavourites = async (req, res) => {
   }
 };
 
+const deleteUserPalette = async (req, res) => {
+  const { paletteId } = req.params;
+  console.log(paletteId);
+
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const deletedPalette = await knex("palettes").where({
+      user_id: verifiedToken.id,
+      id: paletteId,
+    });
+    await knex("palettes")
+      .where({
+        user_id: verifiedToken.id,
+        id: paletteId,
+      })
+      .del();
+    res.status(200).json(deletedPalette);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteUserFavourite = async (req, res) => {
+  const { favouriteId } = req.params;
+
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const deletedFavourite = await knex("favourites").where({
+      user_id: verifiedToken.id,
+      id: favouriteId,
+    });
+    await knex("favourites")
+      .where({
+        user_id: verifiedToken.id,
+        id: favouriteId,
+      })
+      .del();
+    res.status(200).json(deletedFavourite);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteUserCollection = async (req, res) => {
+  const { collectionId } = req.params;
+
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const deletedCollection = await knex("collections").where({
+      user_id: verifiedToken.id,
+      id: collectionId,
+    });
+    await knex("collections")
+      .where({
+        user_id: verifiedToken.id,
+        id: collectionId,
+      })
+      .del();
+    res.status(200).json(deletedCollection);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteUserCollectionPalette = async (req, res) => {
+  const { collectionId, paletteId } = req.params;
+
+  if (!req.headers.authorization) {
+    return res.status(403).send("Please login");
+  }
+
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  try {
+    const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const deletedCollectionPalette = await knex("pivot").where({
+      collection_id: collectionId,
+      palette_id: paletteId,
+    });
+    await knex("pivot")
+      .where({
+        collection_id: collectionId,
+        palette_id: paletteId,
+      })
+      .del();
+    res.status(200).json(deletedCollectionPalette);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   index,
   signup,
@@ -232,4 +341,8 @@ module.exports = {
   getUserCollectionPalettes,
   getUserFavourites,
   postUserFavourites,
+  deleteUserPalette,
+  deleteUserFavourite,
+  deleteUserCollection,
+  deleteUserCollectionPalette,
 };

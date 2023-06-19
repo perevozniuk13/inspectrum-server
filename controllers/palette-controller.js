@@ -18,7 +18,6 @@ const addPalette = async (req, res) => {
 
   try {
     const update = await knex("palettes").insert(req.body);
-    console.log(update);
     const updatedPalettesData = await knex("palettes");
     res.status(200).json(updatedPalettesData);
   } catch (error) {

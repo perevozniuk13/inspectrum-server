@@ -13,7 +13,6 @@ const index = async (req, res) => {
 
 const signup = async (req, res) => {
   const { first_name, last_name, username, email, password } = req.body;
-  console.log(typeof password);
 
   if (!first_name || !last_name || !username || !email || !password) {
     return res.status(400).send("Please provide all user info");
@@ -66,7 +65,6 @@ const login = async (req, res) => {
 
 const getUserInfo = async (req, res) => {
   if (!req.headers.authorization) {
-    console.log("auth header", req.headers.authToken);
     return res.status(403).send("Please login");
   }
 
@@ -158,26 +156,6 @@ const postUserCollections = async (req, res) => {
   }
 };
 
-// const postUserCollectionPalette = async (req, res) => {
-//     if (!req.headers.authorization) {
-//         return res.status(403).send("Please login");
-//       }
-//       const { collectionId } = req.params;
-
-//       const authToken = req.headers.authorization.split(" ")[1];
-
-//       try {
-//         const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
-//         const userCollections = await knex("pivot").insert({
-//           ...req.body,
-//           collection_id: Number(collectionId),
-//         });
-//         res.status(200).json(userCollections);
-//       } catch (error) {
-//         console.log(error);
-//       }
-// };
-
 const getUserCollectionPalettes = async (req, res) => {
   const { collectionId } = req.params;
   if (!req.headers.authorization) {
@@ -222,7 +200,6 @@ const getUserFavourites = async (req, res) => {
 };
 
 const postUserFavourites = async (req, res) => {
-  //   const { userId } = req.params;
   if (!req.headers.authorization) {
     return res.status(403).send("Please login");
   }
@@ -252,7 +229,6 @@ module.exports = {
   postUserPalettes,
   getUserCollections,
   postUserCollections,
-  //   postUserCollectionPalette,
   getUserCollectionPalettes,
   getUserFavourites,
   postUserFavourites,

@@ -20,17 +20,8 @@ router
   .route("/collections/:collectionId/palettes")
   .get(userController.getUserCollectionPalettes);
 
-// router
-//   .route("/:userId/collections/:collectionId/palettes")
-//   .post(userController.postUserCollectionPalette);
-
 router.route("/favourites").get(userController.getUserFavourites);
 
 router.route("/favourites").post(userController.postUserFavourites);
-// router.route("/:id").get(userController.findOne)
-// .patch(userController.update)
-// .delete(userController.remove)
-
-// router.route("/:id/posts").get(userController.posts);
 
 module.exports = router;

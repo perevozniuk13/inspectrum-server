@@ -1,4 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -241,7 +242,6 @@ const postUserFavourites = async (req, res) => {
 
 const deleteUserPalette = async (req, res) => {
   const { paletteId } = req.params;
-  console.log(paletteId);
 
   if (!req.headers.authorization) {
     return res.status(403).send("Please login");

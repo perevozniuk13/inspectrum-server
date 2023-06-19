@@ -1,9 +1,18 @@
 const knex = require("knex")(require("../knexfile"));
 
-const index = async (_req, res) => {
+const { attachPaginate } = require("knex-paginate");
+attachPaginate();
+
+const index = async (req, res) => {
+  const currentPage = Number(req.query.page);
   try {
-    const palettesData = await knex("palettes");
-    res.status(200).json(palettesData);
+    const palettesData = await knex("palettes").paginate({
+      perPage: 10,
+      currentPage: currentPage,
+      isLengthAware: true,
+    });
+    palettesData.data.push(palettesData.pagination.lastPage);
+    res.status(200).json(palettesData.data);
   } catch (error) {
     res.status(400).send("Error retrieving palettes' data");
   }

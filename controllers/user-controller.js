@@ -103,12 +103,10 @@ const postUserPalettes = async (req, res) => {
   if (!req.headers.authorization) {
     return res.status(403).send("Please login");
   }
-
   const authToken = req.headers.authorization.split(" ")[1];
 
   try {
     const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
-
     const addedPalette = await knex("palettes").insert({
       ...req.body,
       user_id: verifiedToken.id,

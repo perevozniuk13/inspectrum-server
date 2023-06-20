@@ -11,7 +11,12 @@ exports.up = function (knex) {
     table.string("colour2").notNullable();
     table.string("colour3").notNullable();
     table.string("colour4").notNullable();
-    table.timestamp("updated_at").defaultTo(knex.fn.now());
+    table.integer("hue1").unsigned().notNullable();
+    table.integer("hue2").unsigned().notNullable();
+    table.integer("hue3").unsigned().notNullable();
+    table.integer("hue4").unsigned().notNullable();
+    table.integer("likes").unsigned().defaultTo(0);
+    table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };
 

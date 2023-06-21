@@ -226,6 +226,13 @@ const postUserFavourites = async (req, res) => {
 
   try {
     const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+    const response = await knex("palettes")
+      .select("likes")
+      .where({ id: req.body.palette_id });
+    const currentLikes = JSON.parse(JSON.stringify(response))[0].likes;
+    await knex("palettes")
+      .where({ id: req.body.palette_id })
+      .update({ likes: currentLikes + 1 });
 
     await knex("favourites").insert({ ...req.body, user_id: verifiedToken.id });
 
@@ -276,6 +283,20 @@ const deleteUserFavourite = async (req, res) => {
 
   try {
     const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+
+    const response1 = await knex("favourites").where({ id: favouriteId });
+    const favouritePaletteId = JSON.parse(JSON.stringify(response1))[0]
+      .palette_id;
+
+    const response = await knex("palettes")
+      .select("likes")
+      .where({ id: favouritePaletteId });
+
+    const currentLikes = JSON.parse(JSON.stringify(response))[0].likes;
+    await knex("palettes")
+      .where({ id: favouritePaletteId })
+      .update({ likes: currentLikes - 1 });
+
     const deletedFavourite = await knex("favourites").where({
       user_id: verifiedToken.id,
       id: favouriteId,

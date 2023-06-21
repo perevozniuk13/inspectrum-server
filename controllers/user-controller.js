@@ -139,10 +139,10 @@ const getUserCollections = async (req, res) => {
         .where({
           user_id: verifiedToken.id,
         })
-        .whereLike("collection_name", `%${search_by}%`)
+        .whereLike("collection_name", `${search_by}%`)
         .orWhereLike(
           "collection_name",
-          `%${search_by[0].toUpperCase() + search_by.substring(1)}%`
+          `${search_by[0].toUpperCase() + search_by.substring(1)}%`
         );
       res.status(200).json(foundCollections);
     }

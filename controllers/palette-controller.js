@@ -6,47 +6,95 @@ attachPaginate();
 const index = async (req, res) => {
   const currentPage = Number(req.query.page);
 
-  const { min_hue, max_hue } = req.query;
+  const { min_hue, max_hue, sort_by, order_by } = req.query;
 
   try {
     if (min_hue === "null" || max_hue === "null") {
-      const palettesData = await knex("palettes").paginate({
-        perPage: 10,
-        currentPage: currentPage,
-        isLengthAware: true,
-      });
-      palettesData.data.push(palettesData.pagination.lastPage);
-      res.status(200).json(palettesData.data);
+      if (!sort_by || !order_by || sort_by === "null" || order_by === "null") {
+        const palettesData = await knex("palettes").paginate({
+          perPage: 10,
+          currentPage: currentPage,
+          isLengthAware: true,
+        });
+        palettesData.data.push(palettesData.pagination.lastPage);
+        res.status(200).json(palettesData.data);
+      } else {
+        const palettesData = await knex("palettes")
+          .orderBy(sort_by, order_by)
+          .paginate({
+            perPage: 10,
+            currentPage: currentPage,
+            isLengthAware: true,
+          });
+        palettesData.data.push(palettesData.pagination.lastPage);
+        res.status(200).json(palettesData.data);
+      }
     } else if (min_hue == 0) {
-      const palettesData = await knex("palettes")
-        .whereBetween("hue1", [0, 9])
-        .orWhereBetween("hue1", [345, 360])
-        .orWhereBetween("hue2", [0, 9])
-        .orWhereBetween("hue2", [345, 360])
-        .orWhereBetween("hue3", [0, 9])
-        .orWhereBetween("hue3", [345, 360])
-        .orWhereBetween("hue4", [0, 9])
-        .orWhereBetween("hue4", [345, 360])
-        .paginate({
-          perPage: 10,
-          currentPage: currentPage,
-          isLengthAware: true,
-        });
-      palettesData.data.push(palettesData.pagination.lastPage);
-      res.status(200).json(palettesData.data);
+      if (!sort_by || !order_by || sort_by === "null" || order_by === "null") {
+        const palettesData = await knex("palettes")
+          .whereBetween("hue1", [0, 9])
+          .orWhereBetween("hue1", [345, 360])
+          .orWhereBetween("hue2", [0, 9])
+          .orWhereBetween("hue2", [345, 360])
+          .orWhereBetween("hue3", [0, 9])
+          .orWhereBetween("hue3", [345, 360])
+          .orWhereBetween("hue4", [0, 9])
+          .orWhereBetween("hue4", [345, 360])
+          .paginate({
+            perPage: 10,
+            currentPage: currentPage,
+            isLengthAware: true,
+          });
+        palettesData.data.push(palettesData.pagination.lastPage);
+        res.status(200).json(palettesData.data);
+      } else {
+        const palettesData = await knex("palettes")
+          .orderBy(sort_by, order_by)
+          .whereBetween("hue1", [0, 9])
+          .orWhereBetween("hue1", [345, 360])
+          .orWhereBetween("hue2", [0, 9])
+          .orWhereBetween("hue2", [345, 360])
+          .orWhereBetween("hue3", [0, 9])
+          .orWhereBetween("hue3", [345, 360])
+          .orWhereBetween("hue4", [0, 9])
+          .orWhereBetween("hue4", [345, 360])
+          .paginate({
+            perPage: 10,
+            currentPage: currentPage,
+            isLengthAware: true,
+          });
+        palettesData.data.push(palettesData.pagination.lastPage);
+        res.status(200).json(palettesData.data);
+      }
     } else {
-      const palettesData = await knex("palettes")
-        .whereBetween("hue1", [min_hue, max_hue])
-        .orWhereBetween("hue2", [min_hue, max_hue])
-        .orWhereBetween("hue3", [min_hue, max_hue])
-        .orWhereBetween("hue4", [min_hue, max_hue])
-        .paginate({
-          perPage: 10,
-          currentPage: currentPage,
-          isLengthAware: true,
-        });
-      palettesData.data.push(palettesData.pagination.lastPage);
-      res.status(200).json(palettesData.data);
+      if (!sort_by || !order_by || sort_by === "null" || order_by === "null") {
+        const palettesData = await knex("palettes")
+          .whereBetween("hue1", [min_hue, max_hue])
+          .orWhereBetween("hue2", [min_hue, max_hue])
+          .orWhereBetween("hue3", [min_hue, max_hue])
+          .orWhereBetween("hue4", [min_hue, max_hue])
+          .paginate({
+            perPage: 10,
+            currentPage: currentPage,
+            isLengthAware: true,
+          });
+        palettesData.data.push(palettesData.pagination.lastPage);
+        res.status(200).json(palettesData.data);
+      } else {
+        const palettesData = await knex("palettes")
+          .orderBy(sort_by, order_by)
+          .whereBetween("hue1", [min_hue, max_hue])
+          .orWhereBetween("hue2", [min_hue, max_hue])
+          .orWhereBetween("hue3", [min_hue, max_hue])
+          .orWhereBetween("hue4", [min_hue, max_hue])
+          .paginate({
+            perPage: 10,
+            currentPage: currentPage,
+            isLengthAware: true,
+          });
+        palettesData.data.push(palettesData.pagination.lastPage);
+        res.status(200).json(palettesData.data);
+      }
     }
   } catch (error) {
     res.status(400).send("Error retrieving palettes' data");

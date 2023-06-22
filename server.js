@@ -40,11 +40,18 @@ app.use(
 
 const userRoutes = require("./routes/users");
 const paletteRoutes = require("./routes/palettes");
+const userPalettesRoutes = require("./routes/user-palettes");
+const userCollectionsRoutes = require("./routes/user-collections");
+const userFavouritesRoutes = require("./routes/user-favourites");
 
 // Routes
 app.use("/users", userRoutes);
 
 app.use("/palettes", paletteRoutes);
+
+app.use("/users/palettes", userPalettesRoutes);
+app.use("/users/collections", userCollectionsRoutes);
+app.use("/users/favourites", userFavouritesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

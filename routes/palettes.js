@@ -5,6 +5,8 @@ router.route("/").get(paletteController.index);
 
 router.route("/").post(paletteController.addPalette);
 
+router.route("/all").get(paletteController.getAllPalettes);
+
 router.route("/:paletteId").put(paletteController.editPalette);
 
 module.exports = router;

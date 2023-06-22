@@ -136,14 +136,12 @@ const getUserCollections = async (req, res) => {
       res.status(200).json(userCollections);
     } else {
       const foundCollections = await knex("collections")
-        .where({
-          user_id: verifiedToken.id,
-        })
         .whereLike("collection_name", `${search_by}%`)
         .orWhereLike(
           "collection_name",
           `${search_by[0].toUpperCase() + search_by.substring(1)}%`
-        );
+        )
+        .where({ user_id: verifiedToken.id });
       res.status(200).json(foundCollections);
     }
   } catch (error) {

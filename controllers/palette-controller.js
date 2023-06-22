@@ -3,6 +3,15 @@ const knex = require("knex")(require("../knexfile"));
 const { attachPaginate } = require("knex-paginate");
 attachPaginate();
 
+const getAllPalettes = async (req, res) => {
+  try {
+    const allPalettes = await knex("palettes");
+    res.status(200).json(allPalettes);
+  } catch (error) {
+    res.status(400).send("Error retrieving users' data");
+  }
+};
+
 const index = async (req, res) => {
   const currentPage = Number(req.query.page);
 
@@ -133,6 +142,7 @@ const editPalette = async (req, res) => {
 
 module.exports = {
   index,
+  getAllPalettes,
   addPalette,
   editPalette,
 };

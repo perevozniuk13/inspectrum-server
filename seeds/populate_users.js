@@ -8,7 +8,8 @@ exports.seed = async function (knex) {
       last_name: "Doe",
       username: "johndoe",
       email: "john.doe@example.com",
-      password: "password123",
+      password: "$2a$10$gjfW9M2SQSN9MDyZkI/1uu15.Vbc5v0bALboCCqeB34M.NZkuiLGS",
+      // password: "password123",
     },
     {
       id: 2,
@@ -16,7 +17,8 @@ exports.seed = async function (knex) {
       last_name: "Smith",
       username: "janesmith",
       email: "jane.smith@example.com",
-      password: "password456",
+      password: "$2a$10$LLgoc8ZK/8aw3PKU/6kpruYqiHyGNdDwqeBc4lROeduc.9L5r5mc2",
+      // password: "password456",
     },
     {
       id: 3,
@@ -24,7 +26,8 @@ exports.seed = async function (knex) {
       last_name: "Johnson",
       username: "michaeljohnson",
       email: "michael.johnson@example.com",
-      password: "password789",
+      // password: "password789",
+      password: "$2a$10$P0v8qVQlRhhjCfozw5VXw.EzcMWkhB190ASdrECkCjSzR.6Ct6oFC",
     },
     {
       id: 4,
@@ -32,7 +35,8 @@ exports.seed = async function (knex) {
       last_name: "Williams",
       username: "sarahwilliams",
       email: "sarah.williams@example.com",
-      password: "passwordabc",
+      // password: "passwordabc",
+      password: "$2a$10$ztpQn2hDilEjix2AalzzkOhUBWpNe0CkQthZIXx7zzLQYVVJRNAOW",
     },
     {
       id: 5,
@@ -40,7 +44,8 @@ exports.seed = async function (knex) {
       last_name: "Brown",
       username: "davidbrown",
       email: "david.brown@example.com",
-      password: "passworddef",
+      // password: "passworddef",
+      password: "$2a$10$IRhpt9fTH.HfIFH02837E.ApndtUargf8AjyQ6bL8aDpgzEzXcCbm",
     },
     {
       id: 6,
@@ -48,7 +53,8 @@ exports.seed = async function (knex) {
       last_name: "Taylor",
       username: "emilytaylor",
       email: "emily.taylor@example.com",
-      password: "passwordghi",
+      // password: "passwordghi",
+      password: "$2a$10$0YJcH2yhg5EnRVZDXtXQ1es14M/D3ESyFCLP8l0XeXcXQK.PYnMOe",
     },
     {
       id: 7,
@@ -56,7 +62,8 @@ exports.seed = async function (knex) {
       last_name: "Anderson",
       username: "danielanderson",
       email: "daniel.anderson@example.com",
-      password: "passwordjkl",
+      // password: "passwordjkl",
+      password: "$2a$10$qMfCELCRYN.TzsYppMh2Fuf5/ZYKV14PEvmRnzYhlHBBLiXiUcJja",
     },
     {
       id: 8,
@@ -64,7 +71,8 @@ exports.seed = async function (knex) {
       last_name: "Thomas",
       username: "oliviathomas",
       email: "olivia.thomas@example.com",
-      password: "passwordmno",
+      // password: "passwordmno",
+      password: "$2a$10$bj837g1fmcoxg1q0O9Uqi..OaoRPbcYLDKQQrcfc.K2iHQnIEXNEq",
     },
     {
       id: 9,
@@ -72,7 +80,8 @@ exports.seed = async function (knex) {
       last_name: "Miller",
       username: "matthewmiller",
       email: "matthew.miller@example.com",
-      password: "passwordpqr",
+      password: "$2a$10$wpPb5L7MdPw/QC0wpEu7VOy8cps7S0edOlXMkyNgR5EO8ui48GpCO",
+      // password: "passwordpqr",
     },
     {
       id: 10,
@@ -80,7 +89,8 @@ exports.seed = async function (knex) {
       last_name: "Davis",
       username: "avadavis",
       email: "ava.davis@example.com",
-      password: "passwordstu",
+      // password: "passwordstu",
+      password: "$2a$10$rDogvt4lgjz5ZFm3dj2RQ.F8e4BA.efrXqvL7WwY03OTbzd2lzzeC",
     },
   ]);
 };

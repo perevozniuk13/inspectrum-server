@@ -22,13 +22,17 @@ const getUserCollections = async (req, res) => {
       res.status(200).json(userCollections);
     } else {
       const foundCollections = await knex("collections")
-        .whereLike("collection_name", `${search_by}%`)
-        .orWhereLike(
+        .where({ user_id: verifiedToken.id })
+        .whereLike("collection_name", `${search_by}%`);
+
+      const foundCollections2 = await knex("collections")
+        .where({ user_id: verifiedToken.id })
+        .whereLike(
           "collection_name",
           `${search_by[0].toUpperCase() + search_by.substring(1)}%`
-        )
-        .where({ user_id: verifiedToken.id });
-      res.status(200).json(foundCollections);
+        );
+
+      res.status(200).json(foundCollections.concat(foundCollections2));
     }
   } catch (error) {
     console.log(error);
@@ -45,11 +49,19 @@ const postUserCollections = async (req, res) => {
 
   try {
     const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
-    const userCollections = await knex("pivot").insert({
-      ...req.body,
+    const pivotData = await knex("pivot").where({
       collection_id: Number(collectionId),
+      palette_id: req.body.palette_id,
     });
-    res.status(200).json(userCollections);
+    if (pivotData.length === 0) {
+      const userCollections = await knex("pivot").insert({
+        ...req.body,
+        collection_id: Number(collectionId),
+      });
+      res.status(200).json(userCollections);
+    } else {
+      res.send("palette is already in collection");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -117,6 +129,7 @@ const deleteUserCollection = async (req, res) => {
         user_id: verifiedToken.id,
         id: collectionId,
       })
+      .first()
       .del();
     res.status(200).json(deletedCollection);
   } catch (error) {
@@ -144,6 +157,7 @@ const deleteUserCollectionPalette = async (req, res) => {
         collection_id: collectionId,
         palette_id: paletteId,
       })
+      .first()
       .del();
     res.status(200).json(deletedCollectionPalette);
   } catch (error) {

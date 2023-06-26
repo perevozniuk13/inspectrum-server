@@ -50,10 +50,12 @@ const deleteUserPalette = async (req, res) => {
 
   try {
     const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
-    const deletedPalette = await knex("palettes").where({
-      user_id: verifiedToken.id,
-      id: paletteId,
-    });
+    const deletedPalette = await knex("palettes")
+      .where({
+        user_id: verifiedToken.id,
+        id: paletteId,
+      })
+      .first();
     await knex("palettes")
       .where({
         user_id: verifiedToken.id,

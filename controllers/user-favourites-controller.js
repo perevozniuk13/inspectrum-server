@@ -32,6 +32,15 @@ const postUserFavourites = async (req, res) => {
 
   try {
     const verifiedToken = jwt.verify(authToken, process.env.JWT_KEY);
+
+    const currentFavourites = await knex("favourites").where({
+      palette_id: req.body.palette_id,
+      user_id: verifiedToken.id,
+    });
+    if (currentFavourites.length > 0) {
+      return res.send("Palette is already in favourites!");
+    }
+
     const response = await knex("palettes")
       .select("likes")
       .where({ id: req.body.palette_id });

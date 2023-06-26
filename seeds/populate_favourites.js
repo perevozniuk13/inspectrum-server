@@ -1,5 +1,4 @@
 exports.seed = async function (knex) {
-  // Deletes ALL existing entries
   await knex("favourites").del();
   await knex("favourites").insert([
     {

@@ -21,7 +21,7 @@ const index = async (req, res) => {
     if (min_hue === "null" || max_hue === "null") {
       if (!sort_by || !order_by || sort_by === "null" || order_by === "null") {
         const palettesData = await knex("palettes").paginate({
-          perPage: 10,
+          perPage: 12,
           currentPage: currentPage,
           isLengthAware: true,
         });
@@ -31,7 +31,7 @@ const index = async (req, res) => {
         const palettesData = await knex("palettes")
           .orderBy(sort_by, order_by)
           .paginate({
-            perPage: 10,
+            perPage: 12,
             currentPage: currentPage,
             isLengthAware: true,
           });
@@ -50,7 +50,7 @@ const index = async (req, res) => {
           .orWhereBetween("hue4", [0, 9])
           .orWhereBetween("hue4", [345, 360])
           .paginate({
-            perPage: 10,
+            perPage: 12,
             currentPage: currentPage,
             isLengthAware: true,
           });
@@ -68,7 +68,7 @@ const index = async (req, res) => {
           .orWhereBetween("hue4", [0, 9])
           .orWhereBetween("hue4", [345, 360])
           .paginate({
-            perPage: 10,
+            perPage: 12,
             currentPage: currentPage,
             isLengthAware: true,
           });
@@ -83,7 +83,7 @@ const index = async (req, res) => {
           .orWhereBetween("hue3", [min_hue, max_hue])
           .orWhereBetween("hue4", [min_hue, max_hue])
           .paginate({
-            perPage: 10,
+            perPage: 12,
             currentPage: currentPage,
             isLengthAware: true,
           });
@@ -97,7 +97,7 @@ const index = async (req, res) => {
           .orWhereBetween("hue3", [min_hue, max_hue])
           .orWhereBetween("hue4", [min_hue, max_hue])
           .paginate({
-            perPage: 10,
+            perPage: 12,
             currentPage: currentPage,
             isLengthAware: true,
           });

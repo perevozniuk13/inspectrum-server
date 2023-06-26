@@ -19,6 +19,11 @@ const signup = async (req, res) => {
     return res.status(400).send("Please provide all user info");
   }
 
+  const findEmail = await knex("users").where({ email: email });
+  if (findEmail.length > 0) {
+    return res.status(400).send("User already exists!");
+  }
+
   const hashedPassword = bcrypt.hashSync(password);
 
   try {
@@ -44,11 +49,12 @@ const login = async (req, res) => {
 
   try {
     const user = await knex("users").where({ username }).first();
+    console.log("user", user);
     if (!user) {
       return res.status(400).send("Invalid user!");
     }
-
-    if (!bcrypt.compare(user.password, bcrypt.hashSync(password))) {
+    const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+    if (!isPasswordCorrect) {
       return res.status(400).send("Invalid password!");
     }
 
@@ -60,7 +66,7 @@ const login = async (req, res) => {
 
     res.status(200).send({ authToken });
   } catch (error) {
-    res.status(400).send("Log in failed!");
+    res.status(400).send("Incorrect username or password!");
   }
 };
 
